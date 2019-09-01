@@ -13,10 +13,10 @@ pipeline
     {
         stage('Build') 
         {
-		    steps {
+	    steps {
                 git 'https://github.com/AlexanderLazarev/spring-petclinic.git'
                 sh 'mvn package -DskipTests=true'
-			}
+            }
         }
         
         stage('Test') 
@@ -25,12 +25,12 @@ pipeline
                 message "Продолжить?"
                 ok "Ok"
             }
-		    steps {
+	    steps {
                 sh 'mvn test'
-		        script {
-		            junit 'target/*-reports/*.xml, */target/*-reports/*.xml'
-		        }
-			}
+                script {
+                    junit 'target/*-reports/*.xml, */target/*-reports/*.xml'
+                }
+            }
         }
 
         stage('Code analysis') 
@@ -68,7 +68,7 @@ pipeline
                 ok "Ok"
             }
 		    steps {
-                sh 'docker build --build-arg JAR_FILE="target/spring-petclinic-2.1.0.BUILD-SNAPSHOT.jar" -t opendays .'
+                sh 'docker build --build-arg JAR_FILE="target/spring-petclinic-2.1.0.BUILD-SNAPSHOT.jar" -t demo .'
 			}
         }
         
@@ -80,7 +80,7 @@ pipeline
             }
 		    steps {
                 //sh 'docker push evsu/opendays:latest'
-                sh 'docker push opendays/petclinic:v4'
+                sh 'docker push devopsepam/demo:v4'
 			}
         }
         
@@ -94,7 +94,7 @@ pipeline
 		        
 		        script {
                     sh 'docker ps -aq | xargs --no-run-if-empty docker rm -f'
-                    sh 'docker run -d -p 80:8080 opendays'
+                    sh 'docker run -d -p 80:8080 demo'
                     print 'УСТАНОВКА ПРОШЛА УСПЕШНО!'
 		        }
 			}
