@@ -1,9 +1,11 @@
 pipeline
 {
+        /*
     agent
     {
         label 'Jenkins-Slave'
     }
+    */
     
     tools {
         maven 'Maven'
